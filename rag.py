@@ -1,10 +1,3 @@
-"""Final offline RAG engine for the supplied 16-document corpus.
-
-This is a development prototype. It returns complete source sentences to keep
-units and conditions visible. Its simple conjunction and pressure-conflict
-policies are deliberately explicit rather than hidden inside a score cutoff.
-"""
-
 import argparse
 import os
 import re
@@ -138,8 +131,6 @@ def _technical_phrases_present(question, sentence, title):
     for match in TECHNICAL_COMPOUND.finditer(question):
         term = match.group(0).lower()
         if not set(term.split("-")).issubset(context_words):
-            # A natural compound may be expressed across the title and the
-            # sentence, as in "Sensor Data Logging" + "network interruption".
             return False
     return True
 
