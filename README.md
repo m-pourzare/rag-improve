@@ -45,5 +45,5 @@ python evaluate.py --system final --show-answers
 ```
 
 `evaluation.csv` contains the 12 evaluation questions and their expected
-sources. The final system passes 11 questions (91.7%). The supplied baseline
+sources. The final system passes 12 questions (100%). The supplied baseline
 passes 7 questions (58.3%).
