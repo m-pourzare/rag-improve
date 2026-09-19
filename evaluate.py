@@ -1,5 +1,3 @@
-"""Compare the supplied baseline and final offline RAG on a CSV question set."""
-
 import argparse
 import csv
 import os
