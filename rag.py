@@ -3,9 +3,7 @@ import os
 import re
 from pathlib import Path
 
-os.environ["HF_HUB_OFFLINE"] = "1"
-os.environ["TRANSFORMERS_OFFLINE"] = "1"
-
+from huggingface_hub import snapshot_download
 from sentence_transformers import SentenceTransformer
 from transformers import pipeline
 
@@ -17,8 +15,19 @@ ROOT = Path(__file__).resolve().parent
 MODELS_ROOT = Path(os.environ.get("RAG_MODELS_DIR", ROOT / ".models"))
 DEFAULT_MODEL = MODELS_ROOT / "tinyroberta-squad2"
 DEFAULT_EMBEDDER = MODELS_ROOT / "embedding-minilm"
+QA_REPOSITORY = "deepset/tinyroberta-squad2"
+EMBEDDING_REPOSITORY = "sentence-transformers/all-MiniLM-L6-v2"
 NOT_FOUND = "Not found in the documents."
 IDENTIFIER = re.compile(r"\b[A-Z]{1,5}-\d{1,5}\b")
+
+
+def ensure_model(path, repository):
+    """Download a model on first use and reuse the local copy afterwards."""
+    path = Path(path)
+    if not (path / "model.safetensors").is_file():
+        print(f"Downloading {repository}...")
+        snapshot_download(repo_id=repository, local_dir=path)
+    return path
 
 
 def sentences(text):
@@ -161,10 +170,8 @@ def numeric_sentence_fallback(question, hit):
 class IntegratedQA:
     def __init__(self, corpus=ROOT / "corpus.jsonl", model_dir=DEFAULT_MODEL,
                  embedding_dir=DEFAULT_EMBEDDER):
-        model_dir, embedding_dir = Path(model_dir), Path(embedding_dir)
-        for path, label in ((model_dir, "QA"), (embedding_dir, "embedding")):
-            if not (path / "model.safetensors").is_file():
-                raise FileNotFoundError(f"Local {label} model weights missing: {path}")
+        model_dir = ensure_model(model_dir, QA_REPOSITORY)
+        embedding_dir = ensure_model(embedding_dir, EMBEDDING_REPOSITORY)
 
         self.embedder = SentenceTransformer(str(embedding_dir), local_files_only=True)
         self.index = build_index(load_docs(corpus), self.embedder)

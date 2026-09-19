@@ -15,12 +15,10 @@ Python 3.9 or newer is required.
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
-mkdir -p .models
-python -c "from huggingface_hub import snapshot_download; snapshot_download('sentence-transformers/all-MiniLM-L6-v2', local_dir='.models/embedding-minilm'); snapshot_download('deepset/tinyroberta-squad2', local_dir='.models/tinyroberta-squad2')"
 ```
 
-The models only need to be downloaded once. After that, the application runs
-offline.
+The first run downloads the required models automatically. Later runs use the
+local copies.
 
 ## Run
 
