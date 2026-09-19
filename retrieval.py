@@ -1,7 +1,4 @@
-"""Simple semantic search for the small local document collection."""
-
 import re
-
 import numpy as np
 
 
