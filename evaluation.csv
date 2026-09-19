@@ -1,0 +1,13 @@
+case_id,question,case_type,expected_doc_ids,doc_match,expected_answer
+O01,Who is permitted to remove a personal lock?,answerable,DOC-11,all,Only the person who applied it
+O02,Which person can remove a lock during maintenance?,answerable,DOC-11,all,Only the person who applied it
+O03,How often must P-200 undergo preventive maintenance?,answerable,DOC-02,all,Every 2000 operating hours
+O04,What maintenance interval is specified for P-200 and what does E-120 mean?,multi_doc,DOC-02|DOC-08,all,Every 2000 operating hours; communication timeout
+O05,What is the C-100 motor power and its service interval?,multi_doc,DOC-03|DOC-12,all,37 kW; every 4000 hours
+O06,What should be reviewed in the sensor log following network interruption?,answerable,DOC-16,all,Review for gaps
+O07,What information is stored with a sensor reading?,answerable,DOC-16,all,Timestamp device identifier raw values and units
+O08,What maximum operating pressures are recorded for P-200?,conflict,DOC-01|DOC-02,all,16 bar and 12 bar
+O09,At what temperature is automatic shutdown of C-100 triggered?,unanswerable,,none,Not found in the documents
+O10,What is the timestamp format in the sensor log?,unanswerable,,none,Not found in the documents
+O11,What output does C-100 deliver at 8 bar?,answerable,DOC-03,all,6 m3/min
+O12,What is the F-30 vibration velocity ceiling?,near_duplicate,DOC-05|DOC-06,any,4.5 mm/s RMS
